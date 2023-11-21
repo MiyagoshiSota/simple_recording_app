@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useEffect } from "react";
 import "./App.css";
 
 //MediaRecorder用のグローバル変数
@@ -7,12 +7,10 @@ let recorder = null;
 let chunks = [];
 
 function App() {
-  const [recording, setRecording] = useState(true);
 
   //初期化処理
   useEffect(() => {
     changeRecording();
-    setRecording(!recording);
   }, []);
 
   //録画開始をさせる処理
@@ -20,7 +18,6 @@ function App() {
     recorder.start();
     console.log(recorder.state);
     console.log("recorgin now : " + recording);
-    setRecording(!recording);
   };
 
   //録画終了をさせる処理
@@ -28,14 +25,13 @@ function App() {
     recorder.stop();
     console.log(recorder.state);
     console.log("recorgin now : " + recording);
-    setRecording(!recording);
   };
 
   //レコーディング状態を交互に変更する
   const changeRecording = () => {
     navigator.mediaDevices
       .getUserMedia({
-        audio: { recording },
+        audio: true,
         video: true,
       })
       .then((stream) => {
